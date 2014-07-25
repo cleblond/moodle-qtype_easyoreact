@@ -15,48 +15,37 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * easyoreact question renderer class.
+ * Marvin Molecular Editor question definition class.
  *
  * @package    qtype
  * @subpackage easyoreact
- * @copyright  2009 The Open University
+ * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
 defined('MOODLE_INTERNAL') || die();
-
-
-/**
- * Generates the output for easyoreact questions.
- *
- * @copyright  2009 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class qtype_easyoreact_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
-		global $CFG, $PAGE;
-		
+        global $CFG, $PAGE;
         $question = $qa->get_question();
-		
-		$questiontext = $question->format_questiontext($qa);
+        $questiontext = $question->format_questiontext($qa);
         $placeholder = false;
-	$myanswer_id = "my_answer".$qa->get_slot();
-	$correctanswer_id = "correct_answer".$qa->get_slot();
-
+        $myanswerid = "my_answer".$qa->get_slot();
+        $correctanswerid = "correct_answer".$qa->get_slot();
         if (preg_match('/_____+/', $questiontext, $matches)) {
             $placeholder = $matches[0];
         }
-	
-	$result='';
-	if ($options->readonly) {
-	$name2 = 'easyoreact'.$qa->get_slot();
-	$result .= html_writer::tag('input', '', array('type' => 'button','value' => 'Show My Response', 'onClick' => 'var s = document.getElementById("'.$myanswer_id.'").value; document.getElementById("'.$name2.'").setMol(s, "cxsmiles");'));
-	$result .= html_writer::tag('input', '', array('type' => 'button','value' => 'Show Correct Answer', 'onClick' => 'var s = document.getElementById("'.$correctanswer_id.'").value; document.getElementById("'.$name2.'").setMol(s, "cxsmiles");'));
-	$result .= html_writer::tag('BR', '', array());
-
-	}
+        $result = '';
+        if ($options->readonly) {
+            $name2 = 'easyoreact'.$qa->get_slot();
+            $result .= html_writer::tag('input', '',
+                 array('type' => 'button', 'value' => 'Show My Response',
+                 'onClick' => 'var s = document.getElementById("'.$myanswerid.'").value;
+                 document.getElementById("'.$name2.'").setMol(s, "cxsmiles");'));
+            $result .= html_writer::tag('input', '',
+                 array('type' => 'button', 'value' => 'Show Correct Answer', 'onClick' => 'var s = document.getElementById("'.$correctanswerid.'").value; document.getElementById("'.$name2.'").setMol(s, "cxsmiles");'));
+            $result .= html_writer::tag('BR', '', array());
+            }
 
         $toreplaceid = 'applet'.$qa->get_slot();
         $toreplace = html_writer::tag('span',
@@ -74,13 +63,6 @@ class qtype_easyoreact_renderer extends qtype_renderer {
         }
 
         $result .= html_writer::tag('div', $questiontext, array('class' => 'qtext'));
-
-
-
-/////crl
-//$result .= html_writer::tag('textarea', "every page here");
-
-
         if (!$placeholder) {
             $answerlabel = html_writer::tag('span', get_string('answer', 'qtype_easyoreact', ''),
                                             array('class' => 'answerlabel'));
@@ -98,62 +80,36 @@ class qtype_easyoreact_renderer extends qtype_renderer {
 
        }
 
-////crl add answer to page////// 
-
-	if (!$options->readonly) {
-		$question = $qa->get_question();
-//		$answer = $question->get_matching_answer($question->get_correct_response());
-		$answer = $question->get_correct_response();
-
-
-		if($question->productsorreactants==0){
-		$components = explode(">", $answer['answer']);
-		$reaction=$components[0].">".$components[1].">";
-		}
-
-		if($question->productsorreactants==1){
-		$components = explode(">", $answer['answer']);
-		$reaction=">".$components[1].">".$components[2];
-		}
-
-		if($question->productsorreactants==2){
-		$components = explode(">", $answer['answer']);
-		$reaction=$components[0].">>".$components[2];
-		}
-
-
-
-		
-
-		$stripped_answer_id="stripped_answer".$qa->get_slot();
-
-
-//		echo "reactants=$reactants_only;
-		$result .= html_writer::tag('textarea', $reaction, array('id' => $stripped_answer_id, 'style' => 'display:none;', 'name' => $stripped_answer_id));
-	}
-/////
-
-		
-		if ($options->readonly) {
-		    $currentanswer = $qa->get_last_qt_var('answer');
-		$stripped_answer_id="stripped_answer".$qa->get_slot();
-		$result .= html_writer::tag('textarea', $currentanswer, array('id' => $stripped_answer_id, 'style' => 'display:none;','name' => $stripped_answer_id));
-
-//		echo "current ans=".$currentanswer;
-	//echo "HEREEEEE";
-		    
+    if (!$options->readonly) {
+        $question = $qa->get_question();
+        $answer = $question->get_correct_response();
+        if($question->productsorreactants==0){
+        $components = explode(">", $answer['answer']);
+        $reaction=$components[0].">".$components[1].">";
+        }
+        if($question->productsorreactants==1){
+        $components = explode(">", $answer['answer']);
+        $reaction=">".$components[1].">".$components[2];
+        }
+        if($question->productsorreactants==2){
+        $components = explode(">", $answer['answer']);
+        $reaction=$components[0].">>".$components[2];
+        }
+        $stripped_answer_id="stripped_answer".$qa->get_slot();
+        $result .= html_writer::tag('textarea', $reaction, array('id' => $stripped_answer_id, 'style' => 'display:none;', 'name' => $stripped_answer_id));
+    }
+        if ($options->readonly) {
+            $currentanswer = $qa->get_last_qt_var('answer');
+        $stripped_answer_id="stripped_answer".$qa->get_slot();
+        $result .= html_writer::tag('textarea', $currentanswer, array('id' => $stripped_answer_id, 'style' => 'display:none;','name' => $stripped_answer_id));
 $result .= html_writer::tag('div', get_string('youranswer', 'qtype_easyoreact', $qa->get_last_qt_var('answer')), array('class' => 'qtext'));
 
 $answer = $question->get_matching_answer($question->get_correct_response());
 
-///buttons to show correct and user answers
-		$result .= html_writer::tag('textarea', $qa->get_last_qt_var('answer'), array('id' => $myanswer_id, 'name' => 'my_answer', 'style' => 'display:none;'));
+        $result .= html_writer::tag('textarea', $qa->get_last_qt_var('answer'), array('id' => $myanswerid, 'name' => 'my_answer', 'style' => 'display:none;'));
 
-		$result .= html_writer::tag('textarea', $answer->answer, array('id' => $correctanswer_id, 'name' => 'correct_answer', 'style' => 'display:none;'));
-
-
-		}
-
+        $result .= html_writer::tag('textarea', $answer->answer, array('id' => $correctanswerid, 'name' => 'correct_answer', 'style' => 'display:none;'));
+        }
         $result .= html_writer::tag('div',
                                     $this->hidden_fields($qa),
                                     array('class' => 'inputcontrol'));
@@ -162,21 +118,6 @@ $answer = $question->get_matching_answer($question->get_correct_response());
 
         return $result;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     protected function require_js($toreplaceid, question_attempt $qa, $readonly, $correctness, $appletoptions) {
         global $PAGE;
         $jsmodule = array(
@@ -196,7 +137,7 @@ $answer = $question->get_matching_answer($question->get_correct_response());
         }
         $name = 'easyoreact'.$qa->get_slot();
         $appletid = 'easyoreact'.$qa->get_slot();
-	$stripped_answer_id="stripped_answer".$qa->get_slot();
+    $stripped_answer_id="stripped_answer".$qa->get_slot();
         $PAGE->requires->js_init_call('M.qtype_easyoreact.insert_easyoreact_applet',
                                       array($toreplaceid,
                                             $name,
@@ -206,7 +147,7 @@ $answer = $question->get_matching_answer($question->get_correct_response());
                                             $feedbackimage,
                                             $readonly,
                                             $appletoptions,
-					    $stripped_answer_id),
+                        $stripped_answer_id),
                                       false,
                                       $jsmodule);
     }
