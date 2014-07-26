@@ -37,6 +37,4 @@ The EasyOChem Reaction question can be used to query students for products,
 reactants and reagents in single step reactions.  You can ask questions such 
 as "Please provide the product for the following reaction
 ?"  or "Please provide reactants for the following reaction?" or "Please provide 
-reagents for the following reaction?". 
-
-
+reagents for the following reaction?".

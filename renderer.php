@@ -42,11 +42,11 @@ class qtype_easyoreact_renderer extends qtype_renderer {
                  array('type' => 'button', 'value' => 'Show My Response',
                  'onClick' => 'var s = document.getElementById("'.$myanswerid.'").value;
                  document.getElementById("'.$name2.'").setMol(s, "cxsmiles");'));
-            $result .= html_writer::tag('input', '',
-                 array('type' => 'button', 'value' => 'Show Correct Answer', 'onClick' => 'var s = document.getElementById("'.$correctanswerid.'").value; document.getElementById("'.$name2.'").setMol(s, "cxsmiles");'));
+            $result .= html_writer::tag('input', '', array('type' => 'button', 'value' => 'Show Correct Answer',
+                                                    'onClick' => 'var s = document.getElementById("'.$correctanswerid.'").value;
+                                                    document.getElementById("'.$name2.'").setMol(s, "cxsmiles");'));
             $result .= html_writer::tag('BR', '', array());
-            }
-
+        }
         $toreplaceid = 'applet'.$qa->get_slot();
         $toreplace = html_writer::tag('span',
                                       get_string('enablejavaandjavascript', 'qtype_easyoreact'),
@@ -67,8 +67,6 @@ class qtype_easyoreact_renderer extends qtype_renderer {
             $answerlabel = html_writer::tag('span', get_string('answer', 'qtype_easyoreact', ''),
                                             array('class' => 'answerlabel'));
             $result .= html_writer::tag('div', $answerlabel.$toreplace, array('class' => 'ablock'));
-
-
         }
 
         if ($qa->get_state() == question_state::$invalid) {
@@ -76,39 +74,39 @@ class qtype_easyoreact_renderer extends qtype_renderer {
             $result .= html_writer::nonempty_tag('div',
                                                 $question->get_validation_error($lastresponse),
                                                 array('class' => 'validationerror'));
- 
+        }
 
-       }
-
-    if (!$options->readonly) {
-        $question = $qa->get_question();
-        $answer = $question->get_correct_response();
-        if($question->productsorreactants==0){
-        $components = explode(">", $answer['answer']);
-        $reaction=$components[0].">".$components[1].">";
+        if (!$options->readonly) {
+            $question = $qa->get_question();
+            $answer = $question->get_correct_response();
+            if ($question->productsorreactants == 0) {
+                $components = explode(">", $answer['answer']);
+                $reaction = $components[0].">".$components[1].">";
+            }
+            if ($question->productsorreactants == 1) {
+                $components = explode(">", $answer['answer']);
+                $reaction = ">".$components[1].">".$components[2];
+            }
+            if ($question->productsorreactants == 2) {
+                $components = explode(">", $answer['answer']);
+                $reaction = $components[0].">>".$components[2];
+            }
+            $strippedanswerid = "stripped_answer".$qa->get_slot();
+            $result .= html_writer::tag('textarea', $reaction,
+                array('id' => $strippedanswerid, 'style' => 'display:none;', 'name' => $strippedanswerid));
         }
-        if($question->productsorreactants==1){
-        $components = explode(">", $answer['answer']);
-        $reaction=">".$components[1].">".$components[2];
-        }
-        if($question->productsorreactants==2){
-        $components = explode(">", $answer['answer']);
-        $reaction=$components[0].">>".$components[2];
-        }
-        $stripped_answer_id="stripped_answer".$qa->get_slot();
-        $result .= html_writer::tag('textarea', $reaction, array('id' => $stripped_answer_id, 'style' => 'display:none;', 'name' => $stripped_answer_id));
-    }
         if ($options->readonly) {
             $currentanswer = $qa->get_last_qt_var('answer');
-        $stripped_answer_id="stripped_answer".$qa->get_slot();
-        $result .= html_writer::tag('textarea', $currentanswer, array('id' => $stripped_answer_id, 'style' => 'display:none;','name' => $stripped_answer_id));
-$result .= html_writer::tag('div', get_string('youranswer', 'qtype_easyoreact', $qa->get_last_qt_var('answer')), array('class' => 'qtext'));
-
-$answer = $question->get_matching_answer($question->get_correct_response());
-
-        $result .= html_writer::tag('textarea', $qa->get_last_qt_var('answer'), array('id' => $myanswerid, 'name' => 'my_answer', 'style' => 'display:none;'));
-
-        $result .= html_writer::tag('textarea', $answer->answer, array('id' => $correctanswerid, 'name' => 'correct_answer', 'style' => 'display:none;'));
+            $strippedanswerid = "stripped_answer".$qa->get_slot();
+            $result .= html_writer::tag('textarea', $currentanswer,
+                array('id' => $strippedanswerid, 'style' => 'display:none;', 'name' => $strippedanswerid));
+                $result .= html_writer::tag('div', get_string('youranswer', 'qtype_easyoreact', $qa->get_last_qt_var('answer')),
+                array('class' => 'qtext'));
+            $answer = $question->get_matching_answer($question->get_correct_response());
+            $result .= html_writer::tag('textarea', $qa->get_last_qt_var('answer'),
+                array('id' => $myanswerid, 'name' => 'my_answer', 'style' => 'display:none;'));
+            $result .= html_writer::tag('textarea', $answer->answer,
+            array('id' => $correctanswerid, 'name' => 'correct_answer', 'style' => 'display:none;'));
         }
         $result .= html_writer::tag('div',
                                     $this->hidden_fields($qa),
@@ -137,7 +135,7 @@ $answer = $question->get_matching_answer($question->get_correct_response());
         }
         $name = 'easyoreact'.$qa->get_slot();
         $appletid = 'easyoreact'.$qa->get_slot();
-    $stripped_answer_id="stripped_answer".$qa->get_slot();
+        $strippedanswerid = "stripped_answer".$qa->get_slot();
         $PAGE->requires->js_init_call('M.qtype_easyoreact.insert_easyoreact_applet',
                                       array($toreplaceid,
                                             $name,
@@ -147,7 +145,7 @@ $answer = $question->get_matching_answer($question->get_correct_response());
                                             $feedbackimage,
                                             $readonly,
                                             $appletoptions,
-                        $stripped_answer_id),
+                        $strippedanswerid),
                                       false,
                                       $jsmodule);
     }
@@ -163,7 +161,6 @@ $answer = $question->get_matching_answer($question->get_correct_response());
         }
         return $fraction;
     }
-
 
     protected function get_last_response(question_attempt $qa) {
         $question = $qa->get_question();
@@ -199,10 +196,7 @@ $answer = $question->get_matching_answer($question->get_correct_response());
             return '';
         }
 
-//        return get_string('correctansweris', 'qtype_easyoreact', s($answer->answer));
         return get_string('correctansweris', 'qtype_easyoreact', s($answer->answer));
-
-
     }
 
     protected function hidden_fields(question_attempt $qa) {
