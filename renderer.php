@@ -82,17 +82,20 @@ class qtype_easyoreact_renderer extends qtype_renderer {
             if ($question->productsorreactants == 0) {
                 $components = explode(">", $answer['answer']);
                 $reaction = $components[0].">".$components[1].">";
+                //echo "0=".$reaction;
             }
             if ($question->productsorreactants == 1) {
                 $components = explode(">", $answer['answer']);
                 $reaction = ">".$components[1].">".$components[2];
+                //echo "1=".$reaction;
             }
             if ($question->productsorreactants == 2) {
                 $components = explode(">", $answer['answer']);
                 $reaction = $components[0].">>".$components[2];
+                //echo "2=".$reaction;
             }
             $strippedanswerid = "stripped_answer".$qa->get_slot();
-            $result .= html_writer::tag('textarea', $reaction,
+            $result .= html_writer::tag('textarea', urlencode($reaction),
                 array('id' => $strippedanswerid, 'style' => 'display:none;', 'name' => $strippedanswerid));
         }
         if ($options->readonly) {

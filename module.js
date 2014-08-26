@@ -100,7 +100,7 @@ M.qtype_easyoreact = {
         newApplet.appendChild(param)
         var param = document.createElement('param');
         param.name = 'implicitH';
-        param.value = 'hetero';
+        param.value = 'heteroterm';
         newApplet.appendChild(param);
         // In case applet supports the focushack system, we
         // pass in its id as a parameter.
@@ -113,9 +113,11 @@ M.qtype_easyoreact = {
             newApplet.appendChild(param);
         }
         var s = document.getElementById(stripped_answer_id).value;
-        s = encodeURIComponent(s);
+        //s = encodeURIComponent(s);
         param.name = 'mol';
+        //s = 'ccc>>';
         param.value = s;
+        //console.log('s=' + s)
         warningspan.appendChild(newApplet);
         if (document.body.className.indexOf('ie6') != -1 && !this.doneie6focus) {
             var fixFocus = function() {
