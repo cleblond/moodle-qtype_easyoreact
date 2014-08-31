@@ -15,17 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * easyonamejs question renderer class.
- *
- * @package    qtype
- * @subpackage easyoreact
- * @copyright  2014 onwards Carl LeBlond 
+ * @package    moodlecore
+ * @subpackage backup-moodle2
+ * @copyright  2014 onwards Carl LeBlond
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    $settings->add(new admin_setting_configtext('qtype_easyoreact_options', get_string('easyoreact_options', 'qtype_easyoreact'),
-                   get_string('configeasyoreactoptions', 'qtype_easyoreact'), '', PARAM_TEXT));
+    $settings->add(new admin_setting_configtext('qtype_easyoreact_options/path', get_string('easyoreact_options', 'qtype_easyoreact'),
+                   get_string('configeasyoreactoptions', 'qtype_easyoreact'), '/marvin', PARAM_TEXT));
 }
-

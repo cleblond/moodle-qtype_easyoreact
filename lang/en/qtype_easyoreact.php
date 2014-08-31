@@ -30,7 +30,8 @@ $string['casereagents'] = 'Reagents';
 $string['caseproductsorreactants'] = 'Do you want the students to provide products, reactants or reagents?';
 
 
-
+$string['configeasyoreactoptions'] = 'The path of your marvin installation relative to your web root.  (e.g. If your moodle is installed at /var/www/moodle and you install your marvin at /var/www/marvin then you should use the default /marvin)';
+$string['easyoreact_options'] = 'Path to Marvin Applet installation';
 $string['addmoreanswerblanks'] = 'Blanks for {no} More Answers';
 $string['answermustbegiven'] = 'You must enter an answer if there is a grade or feedback.';
 $string['answerno'] = 'Answer {$a}';
@@ -51,10 +52,8 @@ $string['pluginname_link'] = 'question/type/easyoreact';
 $string['pluginnameadding'] = 'Adding a Reaction question';
 $string['pluginnameediting'] = 'Editing Reaction question';
 $string['pluginnamesummary'] = 'Student must draw the reactants, reagents or products of a reaction that you predefine.  Ask questions like;<ul><li>Show the reactant in the following reaction?</li><li>Provide the reagents required to achieve the following transformation?</li><li>Provide the major product of the following reaction?</li></ul>';
-$string['easyoreact_options'] = 'Marvin Applet options';
 $string['enablejava'] = 'Tried but failed to load Marvinsketch editor. You have not got a JAVA runtime environment working in your browser. You will need one to attempt this question.';
 $string['enablejavaandjavascript'] = 'Loading Marvinsketch editor.... If this message does not get replaced by the Marvin editor then you have not got javascript and a JAVA runtime environment working in your browser.';
-$string['configeasyoreactoptions'] = 'Comma separated list of Marvinsketch applet options (see <a href="http://www.chemaxon.com">list of available options</a>)';
 $string['filloutoneanswer'] = '<b><ul>
 <li>Draw a <b>complete</b> reaction in the MarvinSketch applet below.</li>
 <li>Use reaction arrow to separate your reactants from your products.</li>

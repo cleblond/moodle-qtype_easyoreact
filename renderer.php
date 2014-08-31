@@ -94,6 +94,7 @@ class qtype_easyoreact_renderer extends qtype_renderer {
                 $reaction = $components[0].">>".$components[2];
                 //echo "2=".$reaction;
             }
+            //echo $reaction;
             $strippedanswerid = "stripped_answer".$qa->get_slot();
             $result .= html_writer::tag('textarea', urlencode($reaction),
                 array('id' => $strippedanswerid, 'style' => 'display:none;', 'name' => $strippedanswerid));
@@ -120,7 +121,13 @@ class qtype_easyoreact_renderer extends qtype_renderer {
         return $result;
     }
     protected function require_js($toreplaceid, question_attempt $qa, $readonly, $correctness, $appletoptions) {
-        global $PAGE;
+        global $PAGE, $CFG;
+
+        $marvinconfig = get_config('qtype_easyoreact_options');
+        $marvinpath = $marvinconfig->path;
+
+
+
         $jsmodule = array(
             'name'     => 'qtype_easyoreact',
             'fullpath' => '/question/type/easyoreact/module.js',
@@ -148,7 +155,9 @@ class qtype_easyoreact_renderer extends qtype_renderer {
                                             $feedbackimage,
                                             $readonly,
                                             $appletoptions,
-                        $strippedanswerid),
+                                            $marvinpath,
+                                            $CFG->wwwroot,
+                                      $strippedanswerid),
                                       false,
                                       $jsmodule);
     }
